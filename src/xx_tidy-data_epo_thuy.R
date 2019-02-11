@@ -24,6 +24,22 @@ labs3 <- read_csv("data/tidy/thuy/lab_events_2018-07.csv", locale = locale(tz = 
     mutate_at("LAB_RESULT", as.numeric)
 
 labs <- bind_rows(labs1, labs2, labs3) %>%
-    rename_all(str_to_lower)
+    rename_all(str_to_lower) %>%
+    rename(lab_event_id = event_id)
 
 rm(labs1, labs2, labs3)
+
+hgb <- labs %>%
+    filter(lab == "Hgb") %>%
+    inner_join(
+        epo[c("encounter_id", "event_id", "clinical_event_datetime")],
+        by = "encounter_id"
+    ) %>%
+    filter(
+        lab_datetime >= clinical_event_datetime - days(8),
+        lab_datetime <= clinical_event_datetime
+    ) %>%
+    group_by(encounter_id, event_id) %>%
+    summarize_at("lab_result", max, na.rm = TRUE) %>%
+    
+
