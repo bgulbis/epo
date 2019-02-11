@@ -1,5 +1,6 @@
 library(tidyverse)
 library(lubridate)
+library(openxlsx)
 
 dir_raw <- "data/tidy/thuy"
 tz <- "US/Central"
@@ -118,3 +119,5 @@ data_epo <- epo %>%
         iron_given,
         transfused
     )
+
+write.xlsx(data_epo, "data/external/epo_data_fy19.xlsx")
