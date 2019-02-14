@@ -49,7 +49,7 @@ WHERE
 						pi_get_dm_info_char_gen('Date Format Mask|FT','PI EXP|Systems Configuration|Date Format Mask')
 					),
 					pi_time_zone(1, @Variable('BOUSER'))),
-				'N Days Prior', pi_to_gmt(TRUNC(SYSDATE) - @Prompt('Days Prior to Now', 'N', , mono, free, persistent, {'0'}, User:2080), pi_time_zone(2, @Variable('BOUSER')))
+				'N Days Prior', pi_to_gmt(SYSDATE - @Prompt('Days Prior to Now', 'N', , mono, free, persistent, {'0'}, User:2080), pi_time_zone(2, @Variable('BOUSER')))
 			)
 			AND DECODE(
 				@Prompt('Choose date range', 'A', {'Today', 'Yesterday', 'Week to Date', 'Last Week', 'Last Month', 'Month to Date', 'User-defined', 'N Days Prior'}, mono, free, , , User:79),
@@ -82,7 +82,7 @@ WHERE
 					'',
 					@Variable('Enter begin date (Leave as 01/01/1800 if using a Relative Date)')
 				),
-				'N Days Prior', TRUNC(SYSDATE) - @Prompt('Days Prior to Now', 'N', , mono, free, persistent, {0}, User:2080)
+				'N Days Prior', SYSDATE - @Prompt('Days Prior to Now', 'N', , mono, free, persistent, {0}, User:2080)
 			) - 1
 			AND DECODE(
 				@Prompt('Choose date range', 'A', {'Today', 'Yesterday', 'Week to Date', 'Last Week', 'Last Month', 'Month to Date', 'User-defined', 'N Days Prior'}, mono, free, , , User:79),
